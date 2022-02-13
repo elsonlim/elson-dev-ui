@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ThemeProvider } from "@emotion/react";
+import { Provider } from "react-redux";
+import "./App.css";
+import NavBar from "./components/navbar/NavBar";
+import Routers from "./Routers";
+import store from "./store";
+import { theme } from "./material/createTheme";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <NavBar />
+        <Routers />
+      </ThemeProvider>
+    </Provider>
   );
-}
+};
 
 export default App;
