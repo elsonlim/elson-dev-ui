@@ -1,10 +1,4 @@
-import { isNullishCoalesce } from "typescript";
-import { userAction, userActionType, User } from "./userInterfaces";
-export interface UserState {
-  isLoading: boolean;
-  error?: String | null;
-  data?: User | null;
-}
+import { userAction, userActionType, UserState } from "./userInterfaces";
 
 const initialState: UserState = {
   isLoading: false,

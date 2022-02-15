@@ -5,11 +5,16 @@ export enum userActionType {
   Signout = "signout",
 }
 
-export interface User {
+interface User {
   id: String;
   name: String;
   email: String;
   role: String;
+}
+export interface UserState {
+  isLoading: boolean;
+  error?: String | null;
+  data?: User | null;
 }
 
 interface getUserAction {
