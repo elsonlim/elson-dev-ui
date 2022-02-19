@@ -1,11 +1,13 @@
-import { FC, Fragment, useEffect } from "react";
+import { FC, Fragment } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
 import { Button, Typography } from "@mui/material";
 import NavBarMenu from "./NavBarMenu";
 import { Link } from "react-router-dom";
-import { getLoginUser, useAction } from "./useAction";
+import { getLoginUser } from "./useAction";
+import withData from "../Common/WithLoader";
+import { fetchUser } from "./userActions";
 
 const SignInButton: FC = () => {
   return (
@@ -23,15 +25,10 @@ const SignInButton: FC = () => {
   );
 };
 
-const NavBar: FC = () => {
-  const { fetchUser } = useAction();
-  const { isLoading, data } = getLoginUser();
-
+const NavBar: FC = (props: any) => {
+  const { isLoading, data } = props;
   const isLogin = !isLoading && data;
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
   return (
     <Fragment>
       <AppBar position="sticky">
@@ -47,4 +44,4 @@ const NavBar: FC = () => {
   );
 };
 
-export default NavBar;
+export default withData(NavBar, getLoginUser, fetchUser);

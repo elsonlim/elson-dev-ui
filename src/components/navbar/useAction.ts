@@ -1,7 +1,6 @@
 import * as userActions from "./userActions";
 import { bindActionCreators } from "redux";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import deepEqual from "react-fast-compare";
 import { UserState } from "./userInterfaces";
 

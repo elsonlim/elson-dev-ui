@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import SignIn from "./components/auth/SignIn";
+import SignIn from "./components/navbar/SignIn";
 // import Dashboard from "./components/auth/Dashboard";
 import Welcome from "./components/welcome/Welcome";
 

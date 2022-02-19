@@ -7,7 +7,7 @@ export const theme = createTheme({
       main: colors.teal[500],
     },
     secondary: {
-      main: colors.orange[500],
+      main: colors.purple[500],
     },
   },
 });

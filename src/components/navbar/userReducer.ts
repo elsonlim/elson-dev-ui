@@ -4,7 +4,7 @@ const initialState: UserState = {
   isLoading: false,
 };
 
-export default (state = initialState, action: userAction): UserState => {
+const userReducer = (state = initialState, action: userAction): UserState => {
   switch (action.type) {
     case userActionType.GetUserStart:
       return { isLoading: true, error: null, data: null };
@@ -18,3 +18,5 @@ export default (state = initialState, action: userAction): UserState => {
       return state;
   }
 };
+
+export default userReducer;
