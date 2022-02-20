@@ -2,11 +2,11 @@ import { FC, Fragment } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import NavBarMenu from "./NavBarMenu";
 import { Link } from "react-router-dom";
 import { getLoginUser } from "./useAction";
-import withData from "../Common/WithLoader";
+import { withData } from "../Common/WithLoader";
 import { fetchUser } from "./userActions";
 
 const SignInButton: FC = () => {
@@ -34,14 +34,20 @@ const NavBar: FC = (props: any) => {
       <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Welcome {isLogin ? data.name : "Stranger"}
+            Welcome {isLoading ? "..." : isLogin ? data.name : "Stranger"}
           </Typography>
 
-          {isLogin ? <NavBarMenu /> : <SignInButton />}
+          {isLoading ? (
+            <CircularProgress color="secondary" />
+          ) : isLogin ? (
+            <NavBarMenu />
+          ) : (
+            <SignInButton />
+          )}
         </Toolbar>
       </AppBar>
     </Fragment>
   );
 };
 
-export default withData(NavBar, getLoginUser, fetchUser);
+export default withData(getLoginUser, fetchUser)(NavBar);

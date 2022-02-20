@@ -4,7 +4,8 @@ import { Container, Grid, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Google, Logout } from "@mui/icons-material";
 import { getLoginUser } from "./useAction";
-import withData from "../Common/WithLoader";
+import { withData, withLoader } from "../Common/WithLoader";
+import { compose } from "redux";
 
 const SignIn: FC = (props: any) => {
   const styles = useStyles();
@@ -69,4 +70,4 @@ const useStyles = makeStyles({
   Button: { marginTop: "1em" }, // a style rule
 });
 
-export default withData(SignIn, getLoginUser);
+export default compose(withData(getLoginUser), withLoader)(SignIn);

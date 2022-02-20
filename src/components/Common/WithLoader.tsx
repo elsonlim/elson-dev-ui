@@ -12,18 +12,11 @@ interface ApiState {
 type getState = () => ApiState;
 type reduxAction = () => (dispatch: any) => Promise<void>;
 
-const withData =
-  (Child: FC, selector: getState, action?: reduxAction): FC =>
+export const withLoader =
+  (Child: FC): FC =>
   (props: any) => {
-    const state = selector();
-    const dispatch = useDispatch();
-    const { isLoading, error } = state;
+    const { isLoading, error } = props;
 
-    useEffect(() => {
-      action && dispatch(action());
-    }, [dispatch]);
-
-    console.log(isLoading, error);
     return (
       <Fragment>
         {isLoading ? (
@@ -33,10 +26,22 @@ const withData =
             {error}
           </Alert>
         ) : (
-          <Child {...state} {...props} />
+          <Child {...props} />
         )}
       </Fragment>
     );
   };
 
-export default withData;
+export const withData =
+  (selector: getState, action?: reduxAction) =>
+  (Child: FC): FC =>
+  (props: any) => {
+    const dispatch = useDispatch();
+    const state = selector();
+
+    useEffect(() => {
+      action && dispatch(action());
+    }, [dispatch]);
+
+    return <Child {...state} {...props} />;
+  };
