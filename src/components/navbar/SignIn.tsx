@@ -1,22 +1,22 @@
 import { FC, Fragment } from "react";
-import axios from "axios";
 import { Container, Grid, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Google, Logout } from "@mui/icons-material";
 import { getLoginUser } from "./useAction";
 import { withData, withLoader } from "../Common/WithLoader";
 import { compose } from "redux";
+import { useAction } from "./useAction";
 
 const SignIn: FC = (props: any) => {
   const styles = useStyles();
   const googleOAuth = () => {
-    window.open("http://localhost:5000/auth/google", "_self");
+    window.open(
+      `${process.env.REACT_APP_AUTH_SERVER_URL}/auth/google`,
+      "_self"
+    );
   };
 
-  const googleOAuthOut = () => {
-    axios.get("http://localhost:5000/auth/logout", { withCredentials: true });
-  };
-
+  const { signout } = useAction();
   const { isLoading, data } = props;
 
   const isLogin = !isLoading && data;
@@ -44,7 +44,7 @@ const SignIn: FC = (props: any) => {
         variant="contained"
         color="secondary"
         startIcon={<Logout />}
-        onClick={googleOAuthOut}
+        onClick={() => signout()}
         className={styles.Button}
       >
         Logout
@@ -60,7 +60,7 @@ const SignIn: FC = (props: any) => {
         justifyContent="center"
         alignItems="center"
       >
-        {isLogin ? showLogoutButton : showLoginIn()}
+        {isLogin ? showLogoutButton() : showLoginIn()}
       </Grid>
     </Container>
   );

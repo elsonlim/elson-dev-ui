@@ -1,5 +1,6 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Dispatch } from "redux";
+import { httpClient } from "./axios";
 import { userAction, userActionType } from "./userInterfaces";
 
 export const fetchUser = () => {
@@ -8,10 +9,8 @@ export const fetchUser = () => {
       type: userActionType.GetUserStart,
     });
 
-    axios
-      .get("http://localhost:5000/user", {
-        withCredentials: true,
-      })
+    httpClient
+      .get("/user")
       .then((payload) => {
         dispatch({
           type: userActionType.GetUserSuccess,
@@ -29,12 +28,10 @@ export const fetchUser = () => {
 
 export const signout = () => {
   return async (dispatch: Dispatch<userAction>) => {
-    axios
-      .get("http://localhost:5000/auth/logout", { withCredentials: true })
-      .finally(() => {
-        dispatch({
-          type: userActionType.Signout,
-        });
+    httpClient.get("/auth/logout").finally(() => {
+      dispatch({
+        type: userActionType.Signout,
       });
+    });
   };
 };
