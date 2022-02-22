@@ -28,6 +28,7 @@ const SignInButton: FC = () => {
 const NavBar: FC = (props: any) => {
   const { isLoading, data } = props;
   const isLogin = !isLoading && data;
+  const apps = data?.apps || [];
 
   return (
     <Fragment>
@@ -40,7 +41,7 @@ const NavBar: FC = (props: any) => {
           {isLoading ? (
             <CircularProgress color="secondary" />
           ) : isLogin ? (
-            <NavBarMenu />
+            <NavBarMenu apps={apps} />
           ) : (
             <SignInButton />
           )}

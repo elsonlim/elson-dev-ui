@@ -1,10 +1,29 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, FC } from "react";
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { useAction } from "./useAction";
 
-const NavMenu = () => {
+interface NavMenuInterface {
+  apps: string[];
+}
+
+interface RouteItem {
+  displayName: string;
+  route: string;
+}
+
+export const routesMap = new Map<string, RouteItem>([
+  [
+    "admin",
+    {
+      displayName: "Admin",
+      route: "/admin",
+    },
+  ],
+]);
+
+const NavMenu: FC<NavMenuInterface> = ({ apps }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { signout } = useAction();
   const navigate = useNavigate();
@@ -20,6 +39,26 @@ const NavMenu = () => {
   const logout = () => {
     signout();
     navigate("/signin");
+  };
+
+  const getRouteMenuItems = () => {
+    const appRouteItems = apps.reduce(
+      (combinedArray: RouteItem[], appOwnedByUser) => {
+        const appRouteItem = routesMap.get(appOwnedByUser);
+        appRouteItem && combinedArray.push(appRouteItem);
+
+        return combinedArray;
+      },
+      []
+    );
+
+    return appRouteItems.map((appRouteItem) => {
+      return (
+        <MenuItem onClick={() => navigate(appRouteItem.route)}>
+          {appRouteItem.displayName}
+        </MenuItem>
+      );
+    });
   };
 
   return (
@@ -50,6 +89,7 @@ const NavMenu = () => {
         onClose={handleClose}
       >
         <MenuItem onClick={logout}>Logout</MenuItem>
+        {getRouteMenuItems()}
       </Menu>
     </Fragment>
   );

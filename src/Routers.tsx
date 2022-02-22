@@ -1,19 +1,23 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import SignIn from "./components/navbar/SignIn";
-// import Dashboard from "./components/auth/Dashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
 import Welcome from "./components/welcome/Welcome";
+import { routesMap } from "./components/navbar/NavBarMenu";
 
-const NavBar: FC = () => {
+const Router: FC = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/signin" element={<SignIn />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route
+          path={routesMap.get("admin")?.route}
+          element={<AdminDashboard />}
+        />
       </Routes>
     </div>
   );
 };
 
-export default NavBar;
+export default Router;
