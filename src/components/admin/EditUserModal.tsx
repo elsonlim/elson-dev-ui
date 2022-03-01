@@ -1,4 +1,4 @@
-import react, { FC } from "react";
+import { FC, useState } from "react";
 import {
   Box,
   FormControl,
@@ -19,17 +19,18 @@ import { User as UserType } from "../navbar/userInterfaces";
 
 interface IEditUserModal {
   isModalOpen: boolean;
-  selectedRow: UserType;
+  userState: UserType;
   handleCloseModal: () => void;
-  setSelectedRow: (user: UserType) => void;
 }
 
 const EditUserModal: FC<IEditUserModal> = ({
   isModalOpen,
+  userState: originalUserState,
   handleCloseModal,
-  selectedRow,
-  setSelectedRow,
 }) => {
+  const [editUserState, setEditUserState] =
+    useState<UserType>(originalUserState);
+
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
       <Box
@@ -52,12 +53,12 @@ const EditUserModal: FC<IEditUserModal> = ({
           disabled
           label="name"
           variant="standard"
-          value={selectedRow?.name}
+          value={editUserState?.name}
         />
         <TextField
           disabled
           label="email"
-          value={selectedRow?.email}
+          value={editUserState?.email}
           variant="standard"
         />
         <FormControl variant="standard">
@@ -65,14 +66,17 @@ const EditUserModal: FC<IEditUserModal> = ({
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={selectedRow?.role}
+            value={editUserState?.role}
             onChange={(event: SelectChangeEvent) => {
-              selectedRow &&
-                setSelectedRow({ ...selectedRow, role: event.target.value });
+              editUserState &&
+                setEditUserState({
+                  ...editUserState,
+                  role: event.target.value,
+                });
             }}
             label="Role"
           >
-            {selectedRow?.role === "owner" && (
+            {originalUserState?.role === "owner" && (
               <MenuItem value={"owner"}>owner</MenuItem>
             )}
             <MenuItem value={"admin"}>admin</MenuItem>
@@ -81,14 +85,14 @@ const EditUserModal: FC<IEditUserModal> = ({
         </FormControl>
         <FormControlLabel
           control={<Checkbox />}
-          checked={selectedRow?.approved}
+          checked={editUserState?.approved}
           label="approved"
         />
         <FormControl>
           <InputLabel id="apps-chip-label">Apps</InputLabel>
           <Select
             labelId="apps-chip-label"
-            value={selectedRow?.apps}
+            value={editUserState?.apps}
             input={<Input id="select-multiple-chip" />}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -110,7 +114,16 @@ const EditUserModal: FC<IEditUserModal> = ({
           <Button onClick={() => handleCloseModal()} variant="outlined">
             Cancel
           </Button>
-          <Button variant="outlined">Revert</Button>
+
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setEditUserState(originalUserState);
+            }}
+          >
+            Revert
+          </Button>
+
           <Button style={{ minWidth: 150 }} variant="contained">
             Save
           </Button>

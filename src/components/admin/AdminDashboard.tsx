@@ -12,7 +12,6 @@ const AdminDashboard: FC = () => {
 
   useEffect(() => {
     httpClient.get("/user", { withCredentials: true }).then((res) => {
-      console.log(res.data);
       setUser(res.data.name);
     });
 
@@ -21,7 +20,7 @@ const AdminDashboard: FC = () => {
         data.id = data._id;
         return data;
       });
-      console.log(users);
+
       setUsers(users);
     });
   }, []);
@@ -45,9 +44,8 @@ const AdminDashboard: FC = () => {
       {selectedRow && (
         <EditUserModal
           isModalOpen={isModalOpen}
-          selectedRow={selectedRow}
+          userState={selectedRow}
           handleCloseModal={handleCloseModal}
-          setSelectedRow={setSelectedRow}
         />
       )}
     </div>
