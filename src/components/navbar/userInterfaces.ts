@@ -5,11 +5,13 @@ export enum userActionType {
   Signout = "signout",
 }
 
-interface User {
-  id: String;
-  name: String;
-  email: String;
-  role: String;
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  approved: boolean;
+  apps: string[];
 }
 export interface UserState {
   isLoading: boolean;

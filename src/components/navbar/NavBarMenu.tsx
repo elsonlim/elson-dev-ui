@@ -54,7 +54,10 @@ const NavMenu: FC<NavMenuInterface> = ({ apps }) => {
 
     return appRouteItems.map((appRouteItem) => {
       return (
-        <MenuItem onClick={() => navigate(appRouteItem.route)}>
+        <MenuItem
+          key={appRouteItem.route}
+          onClick={() => navigate(appRouteItem.route)}
+        >
           {appRouteItem.displayName}
         </MenuItem>
       );
