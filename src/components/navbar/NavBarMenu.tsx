@@ -42,17 +42,17 @@ const NavMenu: FC<NavMenuInterface> = ({ apps }) => {
   };
 
   const getRouteMenuItems = () => {
-    const appRouteItems = apps.reduce(
+    const featureRoutes = apps.reduce(
       (combinedArray: RouteItem[], appOwnedByUser) => {
-        const appRouteItem = routesMap.get(appOwnedByUser);
-        appRouteItem && combinedArray.push(appRouteItem);
+        const featureRoute = routesMap.get(appOwnedByUser);
+        featureRoute && combinedArray.push(featureRoute);
 
         return combinedArray;
       },
       []
     );
 
-    return appRouteItems.map((appRouteItem) => {
+    return featureRoutes.map((appRouteItem) => {
       return (
         <MenuItem
           key={appRouteItem.route}

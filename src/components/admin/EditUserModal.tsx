@@ -14,8 +14,11 @@ import {
   Chip,
   Button,
   ButtonGroup,
+  colors,
 } from "@mui/material";
 import { User as UserType } from "../navbar/userInterfaces";
+
+const features = ["admin", "whoami", "splitTable"];
 
 interface IEditUserModal {
   isModalOpen: boolean;
@@ -53,12 +56,12 @@ const EditUserModal: FC<IEditUserModal> = ({
           disabled
           label="name"
           variant="standard"
-          value={editUserState?.name}
+          value={editUserState.name}
         />
         <TextField
           disabled
           label="email"
-          value={editUserState?.email}
+          value={editUserState.email}
           variant="standard"
         />
         <FormControl variant="standard">
@@ -66,7 +69,7 @@ const EditUserModal: FC<IEditUserModal> = ({
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={editUserState?.role}
+            value={editUserState.role}
             onChange={(event: SelectChangeEvent) => {
               editUserState &&
                 setEditUserState({
@@ -76,23 +79,32 @@ const EditUserModal: FC<IEditUserModal> = ({
             }}
             label="Role"
           >
-            {originalUserState?.role === "owner" && (
+            {originalUserState.role === "owner" && (
               <MenuItem value={"owner"}>owner</MenuItem>
             )}
             <MenuItem value={"admin"}>admin</MenuItem>
             <MenuItem value={"viewer"}>viewer</MenuItem>
           </Select>
         </FormControl>
+
         <FormControlLabel
           control={<Checkbox />}
-          checked={editUserState?.approved}
+          checked={editUserState.approved}
+          onClick={() =>
+            setEditUserState({
+              ...editUserState,
+              approved: !editUserState.approved,
+            })
+          }
           label="approved"
         />
+
         <FormControl>
           <InputLabel id="apps-chip-label">Apps</InputLabel>
           <Select
             labelId="apps-chip-label"
-            value={editUserState?.apps}
+            value={editUserState.apps}
+            multiple
             input={<Input id="select-multiple-chip" />}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -102,15 +114,38 @@ const EditUserModal: FC<IEditUserModal> = ({
               </Box>
             )}
           >
-            {["admin", "whoami", "splitTable"].map((name) => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
+            {features.map((name) => {
+              const apps = editUserState.apps;
+              const containsFeature = apps.includes(name);
+              return (
+                <MenuItem
+                  key={name}
+                  value={name}
+                  autoFocus={false}
+                  sx={
+                    containsFeature ? { backgroundColor: colors.blue[50] } : {}
+                  }
+                  onClick={() => {
+                    let updatedApps;
+                    if (containsFeature) {
+                      updatedApps = apps.filter((item) => item !== name);
+                    } else {
+                      updatedApps = [...apps, name];
+                    }
+                    setEditUserState({
+                      ...editUserState,
+                      apps: updatedApps,
+                    });
+                  }}
+                >
+                  {name}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
 
-        <ButtonGroup sx={{ justifyContent: "right" }}>
+        <ButtonGroup sx={{ marginTop: 6, justifyContent: "right" }}>
           <Button onClick={() => handleCloseModal()} variant="outlined">
             Cancel
           </Button>
