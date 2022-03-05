@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
-import { httpClient } from "./axios";
-import { User as UserType } from "../navbar/userInterfaces";
+import { httpClient } from "../axios";
+import { User as UserType } from "../activeUserInterfaces";
 import EditUserModal from "./EditUserModal";
 import UserDataGrid from "./UserDataGrid";
 

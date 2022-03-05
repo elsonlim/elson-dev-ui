@@ -2,7 +2,7 @@ import { Fragment, useState, FC } from "react";
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
-import { useAction } from "./useAction";
+import { useAction } from "../activeUserUseAction";
 
 interface NavMenuInterface {
   apps: string[];

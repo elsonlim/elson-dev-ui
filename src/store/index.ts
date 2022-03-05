@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import loginUser from "../components/navbar/userReducer";
+import activeUser from "../components/users/activeUserReducer";
 
 const reducers = combineReducers({
-  loginUser,
+  activeUser,
 });
 
 export type RootState = ReturnType<typeof reducers>;

@@ -16,7 +16,7 @@ import {
   ButtonGroup,
   colors,
 } from "@mui/material";
-import { User as UserType } from "../navbar/userInterfaces";
+import { User as UserType } from "../activeUserInterfaces";
 
 const features = ["admin", "whoami", "splitTable"];
 

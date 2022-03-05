@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
 import { Edit as EditIcon } from "@mui/icons-material";
-import { User as UserType } from "../navbar/userInterfaces";
+import { User as UserType } from "../activeUserInterfaces";
 
 interface IUserDataGrid {
   users: UserType[];

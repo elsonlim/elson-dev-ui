@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import SignIn from "./components/navbar/SignIn";
-import AdminDashboard from "./components/admin/AdminDashboard";
 import Welcome from "./components/welcome/Welcome";
-import { routesMap } from "./components/navbar/NavBarMenu";
+import SignIn from "./components/users/SignIn";
+import AdminDashboard from "./components/users/Admin/AdminDashboard";
+import { routesMap } from "./components/users/NavBar/NavBarMenu";
 
 const Router: FC = () => {
   return (

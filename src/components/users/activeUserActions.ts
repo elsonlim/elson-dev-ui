@@ -1,25 +1,25 @@
 import { AxiosError } from "axios";
 import { Dispatch } from "redux";
 import { httpClient } from "./axios";
-import { userAction, userActionType } from "./userInterfaces";
+import { activeUserAction, activeUserActionType } from "./activeUserInterfaces";
 
-export const fetchUser = () => {
-  return async (dispatch: Dispatch<userAction>) => {
+export const fetchActiveUser = () => {
+  return async (dispatch: Dispatch<activeUserAction>) => {
     dispatch({
-      type: userActionType.GetUserStart,
+      type: activeUserActionType.GetActiveUserStart,
     });
 
     httpClient
       .get("/user")
       .then((payload) => {
         dispatch({
-          type: userActionType.GetUserSuccess,
+          type: activeUserActionType.GetActiveUserSuccess,
           payload: payload.data,
         });
       })
       .catch((error: AxiosError) => {
         dispatch({
-          type: userActionType.GetUserFail,
+          type: activeUserActionType.GetActiveUserFail,
           payload: error.message,
         });
       });
@@ -27,10 +27,10 @@ export const fetchUser = () => {
 };
 
 export const signout = () => {
-  return async (dispatch: Dispatch<userAction>) => {
+  return async (dispatch: Dispatch<activeUserAction>) => {
     httpClient.get("/auth/logout").finally(() => {
       dispatch({
-        type: userActionType.Signout,
+        type: activeUserActionType.Signout,
       });
     });
   };

@@ -5,9 +5,9 @@ import Toolbar from "@mui/material/Toolbar";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import NavBarMenu from "./NavBarMenu";
 import { Link } from "react-router-dom";
-import { getLoginUser } from "./useAction";
-import { withData } from "../Common/WithLoader";
-import { fetchUser } from "./userActions";
+import { getActiveUser } from "../activeUserUseAction";
+import { withData } from "../WithLoader";
+import { fetchActiveUser } from "../activeUserActions";
 
 const SignInButton: FC = () => {
   return (
@@ -51,4 +51,4 @@ const NavBar: FC = (props: any) => {
   );
 };
 
-export default withData(getLoginUser, fetchUser)(NavBar);
+export default withData(getActiveUser, fetchActiveUser)(NavBar);
