@@ -21,18 +21,13 @@ import {
 import { User as UserType } from "../activeUserInterfaces";
 import { httpClient } from "../axios";
 import { AxiosError } from "axios";
+import { useAction } from "../usersUseAction";
 const features = ["admin", "whoami", "splitTable"];
 
 interface IEditUserModal {
   isModalOpen: boolean;
   userState: UserType;
   handleCloseModal: () => void;
-}
-
-interface PatchableUserFields {
-  role?: string;
-  approved?: boolean;
-  apps?: string[];
 }
 
 const EditUserModal: FC<IEditUserModal> = ({
@@ -44,6 +39,7 @@ const EditUserModal: FC<IEditUserModal> = ({
     useState<UserType>(originalUserState);
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const { getUsers } = useAction();
 
   const saveUser = () => {
     setIsLoading(true);
@@ -55,7 +51,7 @@ const EditUserModal: FC<IEditUserModal> = ({
       .then((payload) => {
         const data = { ...payload.data, id: payload.data.id };
         setEditUserState(data);
-        // 4. update users
+        getUsers();
         handleCloseModal();
       })
       .catch((error: AxiosError) => {

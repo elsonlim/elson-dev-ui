@@ -1,29 +1,17 @@
-import { FC, useState, useEffect } from "react";
-import { httpClient } from "../axios";
+import { FC, useState } from "react";
 import { User as UserType } from "../activeUserInterfaces";
 import EditUserModal from "./EditUserModal";
 import UserDataGrid from "./UserDataGrid";
+import { getUsersState } from "../usersUseAction";
+import { compose } from "redux";
+import { withData, withLoader } from "../WithLoader";
+import { getUsers } from "../usersActions";
 
-const AdminDashboard: FC = () => {
-  const [user, setUser] = useState();
+const AdminDashboard: FC = (props: any) => {
+  const { data } = props;
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<UserType>();
-  const [users, setUsers] = useState();
-
-  useEffect(() => {
-    httpClient.get("/user", { withCredentials: true }).then((res) => {
-      setUser(res.data.name);
-    });
-
-    httpClient.get("/admin/users", { withCredentials: true }).then((res) => {
-      const users = res.data.map((data: any) => {
-        data.id = data._id;
-        return data;
-      });
-
-      setUsers(users);
-    });
-  }, []);
+  const users = data;
 
   const handleOpenModal = (user: UserType) => {
     setModalOpen(true);
@@ -51,5 +39,7 @@ const AdminDashboard: FC = () => {
     </div>
   );
 };
-
-export default AdminDashboard;
+export default compose(
+  withData(getUsersState, getUsers),
+  withLoader
+)(AdminDashboard);

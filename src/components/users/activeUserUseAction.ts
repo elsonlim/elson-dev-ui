@@ -9,7 +9,7 @@ export const useAction = () => {
   return bindActionCreators(ActiveUserAction, dispatch);
 };
 
-export const getActiveUser = () => {
+export const getActiveUserState = () => {
   return (() =>
     useSelector(
       (state: any) => state.activeUser,

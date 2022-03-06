@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import NavBarMenu from "./NavBarMenu";
 import { Link } from "react-router-dom";
-import { getActiveUser } from "../activeUserUseAction";
+import { getActiveUserState } from "../activeUserUseAction";
 import { withData } from "../WithLoader";
 import { fetchActiveUser } from "../activeUserActions";
 
@@ -51,4 +51,4 @@ const NavBar: FC = (props: any) => {
   );
 };
 
-export default withData(getActiveUser, fetchActiveUser)(NavBar);
+export default withData(getActiveUserState, fetchActiveUser)(NavBar);

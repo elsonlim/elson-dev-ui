@@ -2,7 +2,7 @@ import { FC, Fragment } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Google, Logout } from "@mui/icons-material";
-import { getActiveUser } from "./activeUserUseAction";
+import { getActiveUserState } from "./activeUserUseAction";
 import { withData, withLoader } from "./WithLoader";
 import { compose } from "redux";
 import { useAction } from "./activeUserUseAction";
@@ -70,4 +70,4 @@ const useStyles = makeStyles({
   Button: { marginTop: "1em" }, // a style rule
 });
 
-export default compose(withData(getActiveUser), withLoader)(SignIn);
+export default compose(withData(getActiveUserState), withLoader)(SignIn);
