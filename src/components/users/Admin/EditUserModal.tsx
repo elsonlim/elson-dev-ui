@@ -15,15 +15,24 @@ import {
   Button,
   ButtonGroup,
   colors,
+  LinearProgress,
+  Typography,
 } from "@mui/material";
 import { User as UserType } from "../activeUserInterfaces";
-
+import { httpClient } from "../axios";
+import { AxiosError } from "axios";
 const features = ["admin", "whoami", "splitTable"];
 
 interface IEditUserModal {
   isModalOpen: boolean;
   userState: UserType;
   handleCloseModal: () => void;
+}
+
+interface PatchableUserFields {
+  role?: string;
+  approved?: boolean;
+  apps?: string[];
 }
 
 const EditUserModal: FC<IEditUserModal> = ({
@@ -33,6 +42,29 @@ const EditUserModal: FC<IEditUserModal> = ({
 }) => {
   const [editUserState, setEditUserState] =
     useState<UserType>(originalUserState);
+  const [error, setError] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const saveUser = () => {
+    setIsLoading(true);
+    setError(undefined);
+    const id = editUserState.id;
+
+    httpClient
+      .patch(`/admin/users/${id}`, editUserState)
+      .then((payload) => {
+        const data = { ...payload.data, id: payload.data.id };
+        setEditUserState(data);
+        // 4. update users
+        handleCloseModal();
+      })
+      .catch((error: AxiosError) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
@@ -52,6 +84,8 @@ const EditUserModal: FC<IEditUserModal> = ({
           gap: 2,
         }}
       >
+        {isLoading && <LinearProgress color={"info"} />}
+        {!!error && <Typography color={"error"}>{error}</Typography>}
         <TextField
           disabled
           label="name"
@@ -159,7 +193,11 @@ const EditUserModal: FC<IEditUserModal> = ({
             Revert
           </Button>
 
-          <Button style={{ minWidth: 150 }} variant="contained">
+          <Button
+            style={{ minWidth: 150 }}
+            variant="contained"
+            onClick={saveUser}
+          >
             Save
           </Button>
         </ButtonGroup>
